@@ -5,7 +5,8 @@
 .. moduleauthor:: Nikola Rankovic <kibernick@gmail.com>
 """
 
-LANG_CODES = ['de', 'en', 'fr', 'nl']
+#All avaiable are: ['de', 'en', 'fr', 'nl'] 
+LANG_CODES = ['en', 'nl', 'de']
 TWEETS_PATH = "twitter/"
 TWEETS_NAME = "(lang).txt"
 KWORDS_PATH = "words/"

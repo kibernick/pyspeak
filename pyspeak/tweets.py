@@ -47,16 +47,24 @@ class Tweet(object):
     
     @property
     def detected(self):
-        """Returns the code of the detected language."""
+        """Returns the code of the detected language. It sorts the list of 
+        tuples created from the scores dict, by the score number. Returns the 
+        language code of the first language in the sorted list, which is 
+        declared as the infered language.
+        
+        :returns: str -- language infered."""
         if not self._detected:
-            mlang, max = None, 0
-            for lang, score in self.scores.iteritems():
-                if score > max:
-                    max, mlang = score, lang
-            if not max:
+            
+            scores = self.scores.items() # list of tuples
+            scores = sorted(scores, 
+                            key=lambda score: score[1], 
+                            reverse=True) # desc
+            try:
+                lang, score = scores[0]
+                self._detected = lang
+            except IndexError:
                 self._detected = "??"
-            else:
-                self._detected = mlang
+            
         return self._detected
 
 
