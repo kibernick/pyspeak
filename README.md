@@ -10,10 +10,10 @@ Input data
 
 Keywords obtrainted from University of Leipzig Frequency Lists:
 
-http://wortschatz.uni-leipzig.de/Papers/top100nl.txt
-http://wortschatz.uni-leipzig.de/Papers/top100en.txt
-http://wortschatz.uni-leipzig.de/Papers/top100de.txt
-http://wortschatz.uni-leipzig.de/Papers/top100fr.txt
+* http://wortschatz.uni-leipzig.de/Papers/top100nl.txt
+* http://wortschatz.uni-leipzig.de/Papers/top100en.txt
+* http://wortschatz.uni-leipzig.de/Papers/top100de.txt
+* http://wortschatz.uni-leipzig.de/Papers/top100fr.txt
 
 Tweets obtained from https://twitter.com/search, under search terms "lang:nl", "lang:en", etc. Selected first 20 tweets in each language, so that we "know" they are in that language (vague tweets like "OK" ignored for now, may be used for testing and experiments later). For now assume short documents, so just analysing the whole "document" (or tweet in this case) is fine.
 
