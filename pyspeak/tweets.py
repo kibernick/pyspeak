@@ -28,6 +28,7 @@ class Tweet(object):
             raise Exception("Language not recognized: " + str(lang_from))
         self.lang_from = lang_from
         self.scores = dict((lang, None) for lang in LANG_CODES)
+        self._detected = None
     
     def __str__(self):
         return "(%s) %s" % (self.lang_from, self.text[:70])
@@ -41,8 +42,22 @@ class Tweet(object):
         
         :param LangTree lang_tree: Wrapper for ahocorasick with suffix tree.
         """
-        score = len(lang_tree.tree.findall(self.text))
+        score = len(list(lang_tree.tree.findall(self.text)))
         self.scores[lang_tree.lang] = score
+    
+    @property
+    def detected(self):
+        """Returns the code of the detected language."""
+        if not self._detected:
+            mlang, max = None, 0
+            for lang, score in self.scores.iteritems():
+                if score > max:
+                    max, mlang = score, lang
+            if not max:
+                self._detected = "??"
+            else:
+                self._detected = mlang
+        return self._detected
 
 
 class TweetProvider(object):

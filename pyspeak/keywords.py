@@ -40,8 +40,15 @@ class LangTree(object):
         self.tree = ahocorasick.KeywordTree()
         
         with open(KWORDS_PATH + KWORDS_NAME.replace("(lang)", lang)) as f:
-            for i in xrange(self.n_kwords):
+            for _ in xrange(self.n_kwords):
                 kword = f.readline().strip()
                 self.tree.add(kword)
         
         self.tree.make()
+    
+    def __str__(self):
+        return "(%s) LangTree" % self.lang
+    
+    def __repr__(self):
+        return self.__str__()
+
