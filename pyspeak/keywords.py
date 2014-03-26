@@ -12,6 +12,7 @@ from settings import (
     KWORDS_PATH, 
     KWORDS_NAME, 
     KWORDS_MAX, 
+    MAX_WORD_LEN, 
 )
 
 
@@ -26,22 +27,32 @@ class LangTree(object):
     
     :param str lang: Language code for the most common words to load.
     :param kwords_cap: (Optional) maximum number of keywords to load.
+    :param min_word_len: (Optional) keyword to have at least this many letters.
     :param KeywordTree tree: The suffix tree that is built and used for search.
     """
     
-    def __init__(self, lang, kwords_cap=KWORDS_MAX):
+    def __init__(self, lang, kwords_cap=KWORDS_MAX, min_word_len=0):
         if lang not in LANG_CODES:
             raise Exception("Language not recognized: " + str(lang))
         self.lang = lang
+        
         if kwords_cap and 0 < kwords_cap <= KWORDS_MAX:
             self.n_kwords = kwords_cap
         else:
             raise Exception("Invalid number of keywords to import: " + str(kwords_cap))
+        
+        if 0 <= min_word_len <= MAX_WORD_LEN:
+            self.min_word_len = min_word_len
+        else:
+            raise Exception("Invalid minimum keyword length (%s), needs to be between 0 and %s," % (str(min_word_len), MAX_WORD_LEN) )
+        
         self.tree = ahocorasick.KeywordTree()
         
         with open(KWORDS_PATH + KWORDS_NAME.replace("(lang)", lang)) as f:
             for _ in xrange(self.n_kwords):
                 kword = f.readline().strip()
+                if len(kword) < self.min_word_len:
+                    continue
                 self.tree.add(kword)
         
         self.tree.make()
