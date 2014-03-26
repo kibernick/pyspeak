@@ -8,5 +8,6 @@
 LANG_CODES = ['de', 'en', 'fr', 'nl']
 TWEETS_PATH = "twitter/"
 TWEETS_NAME = "(lang).txt"
-KWORDS_PATH = "keywords/"
+KWORDS_PATH = "words/"
 KWORDS_NAME = "top100(lang).txt"
+KWORDS_MAX = 100

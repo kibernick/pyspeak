@@ -19,6 +19,7 @@ class Tweet(object):
     :param str text: Tweet text content.
     :param str lang_from: Language code of the tweet origin. Acceptable: ['de', 
     'en', 'fr', 'nl']
+    :param dict scores: Scores for keywords in each language.
     """
     
     def __init__(self, text, lang_from):
@@ -33,6 +34,15 @@ class Tweet(object):
     
     def __repr__(self):
         return self.__str__()
+    
+    def calc_score_for_lang(self, lang_tree):
+        """
+        Instance method to calculate the score for a given lang.
+        
+        :param LangTree lang_tree: Wrapper for ahocorasick with suffix tree.
+        """
+        score = len(lang_tree.tree.findall(self.text))
+        self.scores[lang_tree.lang] = score
 
 
 class TweetProvider(object):

@@ -9,14 +9,17 @@ import ahocorasick
 
 from settings import ( 
     LANG_CODES, 
-    TWEETS_PATH, 
-    TWEETS_NAME, 
     KWORDS_PATH, 
     KWORDS_NAME, 
+    KWORDS_MAX, 
 )
 from tweets import (
     Tweet, 
     TweetProvider, 
 )
+from keywords import 
 
 
+def main():
+    for lang in LANG_CODES:
+        pass
