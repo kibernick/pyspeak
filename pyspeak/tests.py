@@ -33,6 +33,15 @@ class TestSettings(unittest.TestCase):
                         msg="Path 'TWEETS_PATH' does not exist.")
         self.assertTrue(os.path.exists(KWORDS_PATH),
                         msg="Path 'KWORDS_PATH' does not exist.")
+    
+    def test_input_files_available(self):
+        for lang in LANG_CODES:
+            tweetpath = (TWEETS_PATH + TWEETS_NAME).replace("(lang)", lang)
+            self.assertTrue(os.path.isfile(tweetpath), 
+                            msg="Missing tweets file.")
+            kwordspath = (KWORDS_PATH + KWORDS_NAME).replace("(lang)", lang)
+            self.assertTrue(os.path.isfile(kwordspath), 
+                            msg="Missing keywords file.")
 
 
 class TestTweet(unittest.TestCase):
