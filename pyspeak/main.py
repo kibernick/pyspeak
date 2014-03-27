@@ -24,13 +24,16 @@ def initialize(kwords_cap=KWORDS_MAX, min_word_len=0):
     return trees, tweets
 
 
-def get_tweets_and_infer_language(max_kwords=KWORDS_MAX, min_word_len=0):
-    trees, tweets = initialize(kwords_cap=max_kwords, min_word_len=min_word_len)
+def infer_language(trees, tweets):
     for tweet in tweets:
         for lang in LANG_CODES:
             lang_tree = trees[lang]
             tweet.calc_score_for_lang(lang_tree)
-    
+
+
+def main(max_kwords=KWORDS_MAX, min_word_len=0):
+    trees, tweets = initialize(kwords_cap=max_kwords, min_word_len=min_word_len)
+    infer_language(trees, tweets)
     for tweet in tweets:
         print tweet.detected, tweet
 
@@ -47,5 +50,5 @@ if __name__ == "__main__":
     max_kwords = args.max_kwords if args.max_kwords else KWORDS_MAX
     min_word_len = int(args.min_kword_len) if args.min_kword_len else 0
     
-    get_tweets_and_infer_language(max_kwords, min_word_len)
+    main(max_kwords, min_word_len)
 

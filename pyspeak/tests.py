@@ -16,8 +16,15 @@ from common import (
     UnknownLanguageException, 
 )
 from keywords import LangTree
+from main import initialize, infer_language
 from settings import LANG_CODES, KWORDS_MAX, MAX_WORD_LEN
 from tweets import Tweet, TweetProvider
+
+
+class TestSettings(unittest.TestCase):
+    
+    def test_default_language(self):
+        self.assertIn('en', LANG_CODES)
 
 
 class TestTweet(unittest.TestCase):
@@ -75,6 +82,21 @@ class TestLangTree(unittest.TestCase):
     def test_all_kwords_found(self):
         for kword in self.lang_tree.kwords:
             self.assertTrue(self.lang_tree.tree.search(kword))
+
+
+class TestLanguageInference(unittest.TestCase):
+    
+    def setUp(self):
+        self.trees, self.tweets = initialize()
+        infer_language(self.trees, self.tweets)
+    
+    def test_tweet_scores_calculated(self):
+        at_least_one = False
+        for tweet in self.tweets:
+            if tweet.detected != "??":
+                self.assertIn(tweet.detected, LANG_CODES)
+                at_least_one = True
+        self.assertTrue(at_least_one)
 
 
 if __name__ == "__main__":
