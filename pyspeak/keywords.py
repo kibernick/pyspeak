@@ -7,6 +7,11 @@
 
 import ahocorasick
 
+from common import (
+    KeywordsNumberException, 
+    MinKeywordLengthException, 
+    UnknownLanguageException, 
+)
 from settings import ( 
     LANG_CODES, 
     KWORDS_PATH, 
@@ -33,27 +38,28 @@ class LangTree(object):
     
     def __init__(self, lang, kwords_cap=KWORDS_MAX, min_word_len=0):
         if lang not in LANG_CODES:
-            raise Exception("Language not recognized: " + str(lang))
+            raise UnknownLanguageException(lang)
         self.lang = lang
         
         if kwords_cap and 0 < kwords_cap <= KWORDS_MAX:
             self.n_kwords = kwords_cap
         else:
-            raise Exception("Invalid number of keywords to import: " + str(kwords_cap))
+            raise KeywordsNumberException(kwords_cap)
         
         if 0 <= min_word_len <= MAX_WORD_LEN:
             self.min_word_len = min_word_len
         else:
-            raise Exception("Invalid minimum keyword length (%s), needs to be between 0 and %s," % (str(min_word_len), MAX_WORD_LEN) )
+            raise MinKeywordLengthException(min_word_len)
         
         self.tree = ahocorasick.KeywordTree()
-        
+        self.kwords = []
         with open(KWORDS_PATH + KWORDS_NAME.replace("(lang)", lang)) as f:
             for _ in xrange(self.n_kwords):
                 kword = f.readline().strip()
                 if len(kword) < self.min_word_len:
                     continue
                 self.tree.add(kword)
+                self.kwords.append(kword)
         
         self.tree.make()
     

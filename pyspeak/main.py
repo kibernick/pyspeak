@@ -33,7 +33,6 @@ def get_tweets_and_infer_language(max_kwords=KWORDS_MAX, min_word_len=0):
     
     for tweet in tweets:
         print tweet.detected, tweet
-    
 
 
 if __name__ == "__main__":

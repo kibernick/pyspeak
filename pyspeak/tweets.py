@@ -10,6 +10,7 @@ from settings import (
     TWEETS_PATH, 
     TWEETS_NAME, 
 )
+from common import UnknownLanguageException
 
 class Tweet(object):
     """
@@ -25,7 +26,7 @@ class Tweet(object):
     def __init__(self, text, lang_from):
         self.text = text
         if lang_from not in LANG_CODES:
-            raise Exception("Language not recognized: " + str(lang_from))
+            raise UnknownLanguageException(lang_from)
         self.lang_from = lang_from
         self.scores = dict((lang, None) for lang in LANG_CODES)
         self._detected = None
@@ -60,7 +61,7 @@ class Tweet(object):
                             key=lambda score: score[1], 
                             reverse=True) # desc
             try:
-                lang, score = scores[0]
+                lang, _ = scores[0]
                 self._detected = lang
             except IndexError:
                 self._detected = "??"
@@ -84,7 +85,7 @@ class TweetProvider(object):
     
     def __init__(self, lang):
         if lang not in LANG_CODES:
-            raise Exception("Language not recognized: " + str(lang))
+            raise UnknownLanguageException(lang)
         self.lang = lang
         with open(TWEETS_PATH + TWEETS_NAME.replace("(lang)", lang)) as f:
             self._tweets = [line.strip() for line in f.readlines()]
