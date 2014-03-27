@@ -3,19 +3,19 @@ The aim is to do rough language classification of a continuous stream of documen
 The program is given a set of languages, and for each language a list of keywords. The program will say for each document, in which language is its text (or "I don't know"), based on whether it finds any keywords it knows. The idea is to be able to have many rules like this "If the text contains rijkswaterstaat it's in dutch", "If it contains Deutsche it's in german" etc.
 
 ## Dependencies
-* (**required**) [ahocorasick](https://pypi.python.org/pypi/ahocorasick/0.9) (or `pip install ahocorasick`)
-* (*optional*) [ipython](https://pypi.python.org/pypi/ipython) 
+* [ahocorasick](https://pypi.python.org/pypi/ahocorasick/0.9) (or `pip install ahocorasick`)
+* [ipython](https://pypi.python.org/pypi/ipython) (optional) 
 
 ## Usage
-Simple run with default values: `python main.py`.
-List all command line options with `python main.py -h`.
+* Simple run with default values: `python main.py`.
+* List all command line options with `python main.py -h`.
 
 ### Command-line configuration
 You can override the maximum number of keywords to load with `--max_kwords`, as well as the minimum keyword length to consider with `--min_kword_len`.
 
 ## Input data
-Keywords obtrainted from University of Leipzig Frequency Lists: [nl](http://wortschatz.uni-leipzig.de/Papers/top100nl.txt) [en](http://wortschatz.uni-leipzig.de/Papers/top100en.txt) [de](http://wortschatz.uni-leipzig.de/Papers/top100de.txt) [fr](http://wortschatz.uni-leipzig.de/Papers/top100fr.txt).
-Tweets obtained from https://twitter.com/search, under search terms "lang:nl", "lang:en", etc. Selected first 20 tweets in each language, so that we "know" they are in that language (vague tweets like "OK" ignored for now, may be used for testing and experiments later). For now assume short documents, so just analysing the whole "document" (or tweet in this case) is fine.
+* Keywords obtrainted from University of Leipzig Frequency Lists: [nl](http://wortschatz.uni-leipzig.de/Papers/top100nl.txt) [en](http://wortschatz.uni-leipzig.de/Papers/top100en.txt) [de](http://wortschatz.uni-leipzig.de/Papers/top100de.txt) [fr](http://wortschatz.uni-leipzig.de/Papers/top100fr.txt).
+* Tweets obtained from https://twitter.com/search, under search terms "lang:nl", "lang:en", etc. Selected first 20 tweets in each language, so that we "know" they are in that language (vague tweets like "OK" ignored for now, may be used for testing and experiments later). For now assume short documents, so just analysing the whole "document" (or tweet in this case) is fine.
 
 ## Solution
 * Each document would have a "score" for each language we are looking up. This score could be just a counter of how many keywords were found in a document, or perhaps something that also takes into account that a word was found in language A but not in language B, etc.
