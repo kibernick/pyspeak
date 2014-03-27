@@ -4,26 +4,23 @@ The program is given a set of languages, and for each language a list of keyword
 
 ## Dependencies
 * (**required**) [ahocorasick](https://pypi.python.org/pypi/ahocorasick/0.9) (or `pip install ahocorasick`)
-* [ipython](https://pypi.python.org/pypi/ipython) (optional)
+* (*optional*) [ipython](https://pypi.python.org/pypi/ipython) 
 
 ## Usage
-Simple run with default values:
-```bash
-python main.py
-```
+Simple run with default values: `python main.py`.
 List all command line options with `python main.py -h`.
 
 ### Command-line configuration
 You can override the maximum number of keywords to load with `--max_kwords`, as well as the minimum keyword length to consider with `--min_kword_len`.
 
 ## Input data
-Keywords obtrainted from University of Leipzig Frequency Lists: [nl](http://wortschatz.uni-leipzig.de/Papers/top100nl.txt) [en](http://wortschatz.uni-leipzig.de/Papers/top100en.txt) [de](http://wortschatz.uni-leipzig.de/Papers/top100de.txt) [fr](http://wortschatz.uni-leipzig.de/Papers/top100fr.txt)
+Keywords obtrainted from University of Leipzig Frequency Lists: [nl](http://wortschatz.uni-leipzig.de/Papers/top100nl.txt) [en](http://wortschatz.uni-leipzig.de/Papers/top100en.txt) [de](http://wortschatz.uni-leipzig.de/Papers/top100de.txt) [fr](http://wortschatz.uni-leipzig.de/Papers/top100fr.txt).
 Tweets obtained from https://twitter.com/search, under search terms "lang:nl", "lang:en", etc. Selected first 20 tweets in each language, so that we "know" they are in that language (vague tweets like "OK" ignored for now, may be used for testing and experiments later). For now assume short documents, so just analysing the whole "document" (or tweet in this case) is fine.
 
 ## Solution
-Each document would have a "score" for each language we are looking up. This score could be just a counter of how many keywords were found in a document, or perhaps something that also takes into account that a word was found in language A but not in language B, etc.
-Makes use of the library that implements a fast multiple keyword/phrase search in texts (e.g. Aho–Corasick string matching algorithm - https://pypi.python.org/pypi/ahocorasick/0.9) and runs these for each incoming document per keyword set, and get scores that way.
-Solution implemented as a single-run script for now.
-The output could be a list of matching languages, sorted by score. Depending on implementation, could also be returned as JSON.
-If testing out different configurations of the solution, we could also return the time it took to calculate the results.
-Disregarding the case where there are multiple languages in one sentence. One classification result per input-text is enough. If the program can not analyse the input data for some reason, it should return an error message instead.
+* Each document would have a "score" for each language we are looking up. This score could be just a counter of how many keywords were found in a document, or perhaps something that also takes into account that a word was found in language A but not in language B, etc.
+* Makes use of the library that implements a fast multiple keyword/phrase search in texts (e.g. Aho–Corasick string matching algorithm - https://pypi.python.org/pypi/ahocorasick/0.9) and runs these for each incoming document per keyword set, and get scores that way.
+* Solution implemented as a single-run script for now.
+* The output could be a list of matching languages, sorted by score. Depending on implementation, could also be returned as JSON.
+* If testing out different configurations of the solution, we could also return the time it took to calculate the results.
+* Disregarding the case where there are multiple languages in one sentence. One classification result per input-text is enough. If the program can not analyse the input data for some reason, it should return an error message instead.
