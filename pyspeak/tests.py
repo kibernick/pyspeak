@@ -7,6 +7,7 @@
 
 import unittest
 from collections import Iterable
+import os
 
 from ahocorasick import KeywordTree
 
@@ -17,20 +18,27 @@ from common import (
 )
 from keywords import LangTree
 from main import initialize, infer_language
-from settings import LANG_CODES, KWORDS_MAX, MAX_WORD_LEN
+from settings import *
 from tweets import Tweet, TweetProvider
 
 
 class TestSettings(unittest.TestCase):
     
     def test_default_language(self):
-        self.assertIn('en', LANG_CODES)
+        self.assertIn('en', LANG_CODES,
+                      msg="English ('en') must be in testable languages.")
+    
+    def test_paths_exist(self):
+        self.assertTrue(os.path.exists(TWEETS_PATH),
+                        msg="Path 'TWEETS_PATH' does not exist.")
+        self.assertTrue(os.path.exists(KWORDS_PATH),
+                        msg="Path 'KWORDS_PATH' does not exist.")
 
 
 class TestTweet(unittest.TestCase):
     
     def setUp(self):
-        self.text = "Testing this out."
+        self.text = "Testing tweets."
         self.lang = 'en'
         self.tweet = Tweet(self.text, self.lang)
     
@@ -38,11 +46,13 @@ class TestTweet(unittest.TestCase):
         self.assertRaises(UnknownLanguageException, Tweet, 
                           self.text, 'unknown')
         self.assertEqual(str(self.tweet), 
-                         "(%s) %s" % (self.lang, self.text))
+                         "(%s) %s" % (self.lang, self.text[:70]),
+                         msg="Incorrect string representation of Tweet.")
     
     def test_scores_initialized(self):
         init_scores = dict((lang, None) for lang in LANG_CODES)
-        self.assertDictContainsSubset(init_scores, self.tweet.scores)
+        self.assertDictContainsSubset(init_scores, self.tweet.scores,
+                                      msg="Scores not initialized.")
 
 
 class TestTweetProvider(unittest.TestCase):
@@ -53,11 +63,13 @@ class TestTweetProvider(unittest.TestCase):
     
     def test_creation(self):
         self.assertRaises(UnknownLanguageException, TweetProvider, 'unknown')
-        self.assertIsInstance(self.provider, Iterable)
+        self.assertIsInstance(self.provider, Iterable,
+                              msg="TweetProvider should be Iterable.")
     
     def test_at_least_one_tweet(self):
         tweet = iter(self.provider).next()
-        self.assertIsInstance(tweet, Tweet)
+        self.assertIsInstance(tweet, Tweet,
+                              msg="Could not retrieve at least one Tweet.")
 
 
 class TestLangTree(unittest.TestCase):
@@ -77,11 +89,13 @@ class TestLangTree(unittest.TestCase):
                           self.lang, min_word_len=invalid_lens[0])
         self.assertRaises(MinKeywordLengthException, LangTree, 
                           self.lang, min_word_len=invalid_lens[1])
-        self.assertIsInstance(self.lang_tree.tree, KeywordTree)
+        self.assertIsInstance(self.lang_tree.tree, KeywordTree,
+                              msg="Suffix tree not initialized correctly.")
     
     def test_all_kwords_found(self):
         for kword in self.lang_tree.kwords:
-            self.assertTrue(self.lang_tree.tree.search(kword))
+            self.assertTrue(self.lang_tree.tree.search(kword),
+                            msg="Could not find keyword in tree!")
 
 
 class TestLanguageInference(unittest.TestCase):
@@ -94,9 +108,11 @@ class TestLanguageInference(unittest.TestCase):
         at_least_one = False
         for tweet in self.tweets:
             if tweet.detected != "??":
-                self.assertIn(tweet.detected, LANG_CODES)
+                self.assertIn(tweet.detected, LANG_CODES,
+                              msg="Inferred an unknown language.")
                 at_least_one = True
-        self.assertTrue(at_least_one)
+        self.assertTrue(at_least_one,
+                        msg="Not a single language was infered.")
 
 
 if __name__ == "__main__":
