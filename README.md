@@ -4,10 +4,10 @@ The program is given a set of languages, and for each language a list of keyword
 
 ## Dependencies
 * [ahocorasick](https://pypi.python.org/pypi/ahocorasick/0.9) (or `pip install ahocorasick`)
-* [ipython](https://pypi.python.org/pypi/ipython) (optional) 
+* [ipython](https://pypi.python.org/pypi/ipython) (optional, for data wrangling) 
 
 ## Usage
-* Simple run with default values: `python main.py`.
+* Simple run with default values: `python main.py`. Writes to standard output for each tweet: *detected language*, *actual language*, *tweet content*.
 * List all command line options with `python main.py -h`.
 
 ### Sample output
