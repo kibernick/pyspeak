@@ -12,6 +12,7 @@ from settings import (
 )
 from common import UnknownLanguageException
 
+
 class Tweet(object):
     """
     Holds the info on the tweet contect, it's original language and scores for
