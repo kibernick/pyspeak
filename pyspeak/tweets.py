@@ -44,8 +44,10 @@ class Tweet(object):
         
         :param LangTree lang_tree: Wrapper for ahocorasick with suffix tree.
         """
-        score = len(list(lang_tree.tree.findall(self.text)))
-        self.scores[lang_tree.lang] = score
+        scores = []
+        lang_tree.tree.find_all(self.text, lambda index, score: scores.append(score))
+        self.scores[lang_tree.lang] = sum(scores)
+
     
     @property
     def detected(self):
@@ -98,4 +100,3 @@ class TweetProvider(object):
     def __str__(self):
         return "TweetProvider (%s) (%s tweets)" % (self.lang,
                                                    str(len(self._tweets)))
-

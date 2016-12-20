@@ -9,17 +9,17 @@ import unittest
 from collections import Iterable
 import os
 
-from ahocorasick import KeywordTree
+import ahocorasick
 
-from common import (
+from pyspeak.common import (
     KeywordsNumberException, 
     MinKeywordLengthException, 
     UnknownLanguageException, 
 )
-from keywords import LangTree
-from main import initialize, infer_language
-from settings import *
-from tweets import Tweet, TweetProvider
+from pyspeak.keywords import LangTree
+from pyspeak.main import initialize, infer_language
+from pyspeak.settings import *
+from pyspeak.tweets import Tweet, TweetProvider
 
 
 class TestSettings(unittest.TestCase):
@@ -98,12 +98,12 @@ class TestLangTree(unittest.TestCase):
                           self.lang, min_word_len=invalid_lens[0])
         self.assertRaises(MinKeywordLengthException, LangTree, 
                           self.lang, min_word_len=invalid_lens[1])
-        self.assertIsInstance(self.lang_tree.tree, KeywordTree,
+        self.assertIsInstance(self.lang_tree.tree, ahocorasick.Automaton,
                               msg="Suffix tree not initialized correctly.")
     
     def test_all_kwords_found(self):
         for kword in self.lang_tree.kwords:
-            self.assertTrue(self.lang_tree.tree.search(kword),
+            self.assertTrue(self.lang_tree.tree.get(kword),
                             msg="Could not find keyword in tree!")
 
 

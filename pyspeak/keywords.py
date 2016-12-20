@@ -51,21 +51,20 @@ class LangTree(object):
         else:
             raise MinKeywordLengthException(min_word_len)
         
-        self.tree = ahocorasick.KeywordTree()
+        self.tree = ahocorasick.Automaton(ahocorasick.STORE_LENGTH)
         self.kwords = []
         with open(KWORDS_PATH + KWORDS_NAME.replace("(lang)", lang)) as f:
             for _ in xrange(self.n_kwords):
                 kword = f.readline().strip()
                 if len(kword) < self.min_word_len:
                     continue
-                self.tree.add(kword)
+                self.tree.add_word(kword)
                 self.kwords.append(kword)
         
-        self.tree.make()
+        self.tree.make_automaton()
     
     def __str__(self):
         return "(%s) LangTree" % self.lang
     
     def __repr__(self):
         return self.__str__()
-

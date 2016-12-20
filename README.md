@@ -2,10 +2,15 @@
 
 # pyspeak
 The aim is to do rough language classification of a continuous stream of documents, using keyword matching.
+
+Note: This is an old project that has been bumped to use the latest `ahocorasick` library. 
+
+For this we are using the `pyahocorasick` library which implements the Aho-Corasick automatons, that are commonly used for fast multi-pattern matching in intrusion detection systems (such as snort), anti-viruses and many other applications that need fast matching against a pre-defined set of string keys.
+
 The program is given a set of languages, and for each language a list of keywords. The program will say for each document, in which language is its text (or "I don't know"), based on whether it finds any keywords it knows. The idea is to be able to have many rules like this "If the text contains rijkswaterstaat it's in dutch", "If it contains Deutsche it's in german" etc.
 
 ## Dependencies
-* [ahocorasick](https://pypi.python.org/pypi/ahocorasick/0.9) (or `pip install ahocorasick`)
+* [pyahocorasick](https://pypi.python.org/pypi/pyahocorasick/) (or `pip install pyahocorasick`)
 * [ipython](https://pypi.python.org/pypi/ipython) (optional, for data wrangling) 
 
 ## Usage
@@ -27,6 +32,9 @@ de (de) Coverdownload nur nach Login. Haben manche Verlage Angst davor, dass j
 
 ### Command-line configuration
 You can override the maximum number of keywords to load with `--max_kwords`, as well as the minimum keyword length to consider with `--min_kword_len`.
+
+### Additional configuration
+Check out `pyspeak/settings.py`. Also see below.
 
 ## Input data
 * Keywords obtrainted from University of Leipzig Frequency Lists: [nl](http://wortschatz.uni-leipzig.de/Papers/top100nl.txt) [en](http://wortschatz.uni-leipzig.de/Papers/top100en.txt) [de](http://wortschatz.uni-leipzig.de/Papers/top100de.txt) [fr](http://wortschatz.uni-leipzig.de/Papers/top100fr.txt).

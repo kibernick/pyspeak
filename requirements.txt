@@ -1,2 +1,2 @@
-ahocorasick==0.9
-ipython==1.2.1
+pyahocorasick==1.1.4
+ipython==5.1.0

@@ -51,4 +51,3 @@ if __name__ == "__main__":
     min_word_len = int(args.min_kword_len) if args.min_kword_len else 0
     
     main(max_kwords, min_word_len)
-
