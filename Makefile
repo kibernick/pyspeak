@@ -1,4 +1,2 @@
-.PHONY: test
-
 test:
-	@echo "TODO!!"
+	python tests.py
