@@ -1,3 +1,5 @@
+[![Build Status](https://api.travis-ci.org/kibernick/pyspeak.png)](https://travis-ci.org/kibernick/pyspeak)
+
 # pyspeak
 The aim is to do rough language classification of a continuous stream of documents, using keyword matching.
 The program is given a set of languages, and for each language a list of keywords. The program will say for each document, in which language is its text (or "I don't know"), based on whether it finds any keywords it knows. The idea is to be able to have many rules like this "If the text contains rijkswaterstaat it's in dutch", "If it contains Deutsche it's in german" etc.
